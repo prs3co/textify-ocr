@@ -11,6 +11,7 @@ const nextConfig = {
     ],
     // Make ENV
     unoptimized: true,
+    optimizeFonts: false,
   },
 };
 
