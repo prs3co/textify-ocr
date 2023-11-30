@@ -18,14 +18,14 @@ const routes = [
     path: 'default',
     icon: <MdHome className="h-6 w-6" />,
   },
-  {
-    name: 'NFT Marketplace',
-    layout: '/admin',
-    path: 'nft-marketplace',
-    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
+  // {
+  //   name: 'NFT Marketplace',
+  //   layout: '/admin',
+  //   path: 'nft-marketplace',
+  //   icon: <MdOutlineShoppingCart className="h-6 w-6" />,
 
-    secondary: true,
-  },
+  //   secondary: true,
+  // },
   {
     name: 'Data Tables',
     layout: '/admin',
@@ -39,22 +39,22 @@ const routes = [
     path: 'surat-keluar',
   },
   {
-    name: 'Profile',
+    name: 'Tambah Surat Keluar',
     layout: '/admin',
-    path: 'profile',
-    icon: <MdPerson className="h-6 w-6" />,
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: 'surat-keluar/create',
   },
+  // {
+  //   name: 'Profile',
+  //   layout: '/admin',
+  //   path: 'profile',
+  //   icon: <MdPerson className="h-6 w-6" />,
+  // },
   {
     name: 'Sign In',
     layout: '/auth',
     path: 'sign-in',
     icon: <MdLock className="h-6 w-6" />,
-  },
-  {
-    name: 'RTL Admin',
-    layout: '/rtl',
-    path: 'rtl-default',
-    icon: <MdHome className="h-6 w-6" />,
   },
 ];
 export default routes;

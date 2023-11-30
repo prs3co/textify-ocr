@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import tableDataComplex from '@/components/admin/outgoingMail/variables/tableDataComplex';
-import ComplexTable from 'components/admin/data-tables/ComplexTable';
+import ComplexTable from '@/components/admin/data-tables/ComplexTable';
 
 const OutcomingMail = () => {
   return (

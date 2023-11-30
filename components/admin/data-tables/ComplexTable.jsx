@@ -1,7 +1,7 @@
 import React from 'react';
-import CardMenu from 'components/card/CardMenu';
-import Card from 'components/card';
-import Progress from 'components/progress';
+import CardMenu from '@/components/card/CardMenu';
+import Card from '@/components/card';
+import Progress from '@/components/progress';
 import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
 
 import {
@@ -13,19 +13,12 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-type RowObj = {
-  name: string;
-  status: string;
-  date: string;
-  progress: number;
-};
-
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper();
 
 // const columns = columnsDataCheck;
-export default function ComplexTable(props: { tableData: any }) {
+export default function ComplexTable(props) {
   const { tableData } = props;
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState([]);
   let defaultData = tableData;
   const columns = [
     columnHelper.accessor('name', {
@@ -128,7 +121,7 @@ export default function ComplexTable(props: { tableData: any }) {
                         {{
                           asc: '',
                           desc: '',
-                        }[header.column.getIsSorted() as string] ?? null}
+                        }[header.column.getIsSorted()] ?? null}
                       </div>
                     </th>
                   );

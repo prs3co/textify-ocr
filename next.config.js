@@ -11,8 +11,8 @@ const nextConfig = {
     ],
     // Make ENV
     unoptimized: true,
-    optimizeFonts: false,
   },
+  optimizeFonts: false,
 };
 
 module.exports = nextConfig

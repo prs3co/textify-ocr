@@ -3,8 +3,6 @@
 import { HiX } from 'react-icons/hi';
 import Links from './components/Links';
 
-import SidebarCard from 'components/sidebar/components/SidebarCard';
-
 function SidebarHorizon(props) {
   const { routes, open, setOpen } = props;
   return (
@@ -31,11 +29,6 @@ function SidebarHorizon(props) {
       <ul className="mb-auto pt-1">
         <Links routes={routes} />
       </ul>
-
-      {/* Free Horizon Card */}
-      <div className="flex justify-center">
-        <SidebarCard />
-      </div>
 
       {/* Nav item end */}
     </div>
