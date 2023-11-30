@@ -13,6 +13,12 @@ const nextConfig = {
     unoptimized: true,
   },
   optimizeFonts: false,
+  env: {
+    user : process.env.user,
+    password : process.env.password,
+    MONGODB_URI : process.env.MONGODB_URI,
+    MINDEE_API_KEY : process.env.MINDEE_API_KEY,
+  },
 };
 
 module.exports = nextConfig
