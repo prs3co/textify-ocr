@@ -9,8 +9,8 @@ import {
   isWindowAvailable,
 } from 'utils/navigation';
 import Navbar from '@/components/navbar';
-import Sidebar from 'components/sidebar';
-import Footer from 'components/footer/Footer';
+import Sidebar from '@/components/sidebar';
+import Footer from '@/components/footer/Footer';
 
 export default function Admin({ children }) {
   // states and functions

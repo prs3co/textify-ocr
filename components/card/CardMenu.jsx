@@ -1,10 +1,13 @@
+"use client"
+
 import React from 'react';
 import Dropdown from 'components/dropdown';
 import { AiOutlineUser, AiOutlineShop } from 'react-icons/ai';
-import { BsThreeDots } from 'react-icons/bs';
+import { BsThreeDots, BsThreeDotsVertical } from 'react-icons/bs';
 import { FiSettings } from 'react-icons/fi';
 import { TiLightbulb } from 'react-icons/ti';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { MdOutlineAddCircle } from "react-icons/md";
+import Link from 'next/link'
 
 function CardMenu(props) {
   const { transparent, vertical } = props;
@@ -35,15 +38,15 @@ function CardMenu(props) {
       classNames={`${transparent ? 'top-8' : 'top-11'} right-0 w-max`}
     >
       <div className="z-50 w-max rounded-xl bg-white px-4 py-3 text-sm shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:shadow-none">
-        <li>
+        <Link href='/admin/surat-keluar/create'>
           <p className="hover:text-black flex cursor-pointer items-center gap-2 text-gray-600 hover:font-medium">
             <span>
-              <AiOutlineUser />
+              <MdOutlineAddCircle />
             </span>
             Tambah Surat
           </p>
-        </li>
-        <p className="hover:text-black mt-2 flex cursor-pointer items-center gap-2 pt-1 text-gray-600 hover:font-medium">
+        </Link>
+        {/* <p className="hover:text-black mt-2 flex cursor-pointer items-center gap-2 pt-1 text-gray-600 hover:font-medium">
           <span>
             <AiOutlineShop />
           </span>
@@ -60,7 +63,7 @@ function CardMenu(props) {
             <FiSettings />
           </span>
           Panel 4
-        </p>
+        </p> */}
       </div>
     </Dropdown>
   );

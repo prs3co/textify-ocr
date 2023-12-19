@@ -1,19 +1,18 @@
+import React from 'react';
+import CardMenu from '@/components/card/CardMenu';
+import Card from '@/components/card';
 import { promises as fs } from "fs"
 import path from "path"
-import Image from "next/image"
-import { z } from "zod"
 
-import { columns } from "@/components/admin/outgoingMail/components/columns"
-import { DataTable } from "@/components/admin/outgoingMail/components/data-table"
-import { UserNav } from "@/components/admin/outgoingMail/components/user-nav"
-import { taskSchema } from "@/components/admin/outgoingMail/components/data/schema"
-import CardMenu from '@/components/card/CardMenu'
-import Card from '@/components/card'
+import { columns } from "./columns"
+import { DataTable } from "./data-table"
+import { UserNav } from "./user-nav"
+import { taskSchema } from "./data/schema"
 
 // Simulate a database read for tasks.
 async function getTasks() {
   const data = await fs.readFile(
-    path.join(process.cwd(), "components\\admin\\outgoingMail\\components\\data\\tasks.json")
+    path.join(process.cwd(), "components\admin\outgoingMail\components\data\tasks.json")
   )
 
   const tasks = JSON.parse(data.toString())
@@ -21,8 +20,16 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks)
 }
 
-export default async function TaskPage() {
+// const columns = columnsDataCheck;
+export default async function ComplexTable(props) {
   const tasks = await getTasks()
+
+  const { tableData } = props;
+  const [sorting, setSorting] = React.useState([]);
+
+  let defaultData = tableData;
+
+  const [data, setData] = React.useState(() => [...defaultData]);
 
   return (
     <Card extra={'w-full h-full px-6 pb-6 sm:overflow-x-auto'}>
@@ -37,5 +44,5 @@ export default async function TaskPage() {
         <DataTable data={tasks} columns={columns} />
       </div>
     </Card>
-  )
+  );
 }

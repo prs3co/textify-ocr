@@ -38,12 +38,6 @@ const routes = [
     icon: <MdBarChart className="h-6 w-6" />,
     path: 'surat-keluar',
   },
-  {
-    name: 'Tambah Surat Keluar',
-    layout: '/admin',
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: 'surat-keluar/create',
-  },
   // {
   //   name: 'Profile',
   //   layout: '/admin',
