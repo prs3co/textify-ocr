@@ -16,7 +16,7 @@ const nextConfig = {
   env: {
     user : process.env.user,
     password : process.env.password,
-    MONGODB_URI : process.env.MONGODB_URI,
+    MONGODB_URI : `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.ctwyecj.mongodb.net/textify-ocr`,
     MINDEE_API_KEY : process.env.MINDEE_API_KEY,
   },
 };

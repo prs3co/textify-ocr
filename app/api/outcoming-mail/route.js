@@ -1,36 +1,32 @@
 import connectDB from '@/lib/mongodb';
-import Mail from '@/models/Mail';
+import Mail from '@/models/Mail'
 import { NextResponse } from 'next/server';
 
 
-export async function GET(request) {
+export async function GET() {
   try {
     await connectDB()
-    const mail = await Mail
+    const mail = await Mail.find()
+
+    return new NextResponse(JSON.stringify(mail),{ status: 200})
   } catch (error) {
-    return NextResponse.json({error: 'internal server error'}, {status: 500})
+    return new NextResponse({error: 'internal server error'}, {status: 500})
   }
 }
 
 export async function POST(request) {
-  const formData = await request.formData();
-
+  const body = await request.json()
+  const newMail = new Mail(body)
   try {
-    const res = await fetch('https://api.mindee.net/v1/products/prs3co/letter/v1/predict', {
-      method: 'POST',
-      headers: {
-        // 'Content-Type': 'application/json',
-        'Authorization': process.env.MINDEE_API_KEY
-      },
-      body: formData
-    })
+    await connectDB()
+    await newMail.save()
 
-    console.log(formData.get('document'))
-
-    const response = await res.json()
-
-    return NextResponse.json(response)
+    return new NextResponse('Mail has been posted', { status: 201, headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    }})
   } catch (error) {
-    return NextResponse.json(error)
+    return NextResponse.json({ error: 'Internal server error'}, { status: 500 })
   }
 }

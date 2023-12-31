@@ -8,7 +8,7 @@ const mailSchema = new Schema(
       unique: true
     },
     letterNumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     date: {
@@ -22,6 +22,10 @@ const mailSchema = new Schema(
     address: {
       type: String,
       required: true,
+    },
+    pdfUrl: {
+      type: String,
+      required: true,
     }
   },
   {
@@ -29,4 +33,4 @@ const mailSchema = new Schema(
   }
 )
 
-module.exports = mongoose.models.Mail || mongoose.model('Mail', mailSchema)
+export default mongoose.models.Mail || mongoose.model('Mail', mailSchema)
