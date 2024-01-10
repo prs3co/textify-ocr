@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const mailSchema = new Schema(
   {
-    id: {
+    registerNumber: {
       type: Number,
       required: true,
       unique: true

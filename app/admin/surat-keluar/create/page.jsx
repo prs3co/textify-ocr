@@ -4,16 +4,62 @@
 import Upload from '@/components/admin/outgoingMail/components/Upload';
 
 import dummyData from '@/utils/dummyData'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod'
+
 import { parseISO } from 'date-fns';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import HashLoader from "react-spinners/HashLoader";
 
+const MAX_FILE_SIZE = 500000;
+const ACCEPTED_IMAGE_TYPES = ["application/pdf"];
+
+
+const formSchema = z.object({
+  noRegistration: z.coerce.number({
+    required_error: "No registrasi harus diisi",
+  }).min(1, 'Angka harus lebih besar atau sama dengan 1'),
+  letterNumber: z.string({
+    required_error: "No registrasi harus diisi",
+    // invalid_type_error: "No surat harus berupa angka",
+  }).min(1, 'Harus berisi setidaknya 1 karakter'),
+  address: z.string({
+    required_error: "Tujuan surat harus diisi",
+  }).min(1, 'Tujuan surat harus diisi'),
+  letterDate: z.date({
+    required_error: "Tanggal diperlukan",
+  }),
+  title: z.string({
+    required_error: "Tujuan surat harus diisi"
+  }).min(1, 'Tujuan surat harus diisi'),
+  file: z
+    .any()
+    .refine((files) => files, "File harus diisi.")
+    // .refine((files) => files?.size <= MAX_FILE_SIZE, `Ukuran file maksimal adalah 5MB.`)
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.type),
+      "File .pdf diterima."
+    ),
+})
+
+const defaultValues = {
+  noRegistration: "",
+  letterNumber: "",
+  address: "",
+  letterDate: "",
+  title: "",
+  file: "",
+}
+
 function CreateOutcomingMail() {
   const [ file, setFile ] = useState([])
   const [ isLoading, setIsLoading ] = useState(false)
   // const [fetchData, setFetchData] = useState(null)
-  const form = useForm()
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues
+  })
 
   function onInputFileHandler(file) {
     setFile(file)
