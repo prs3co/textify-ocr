@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod'
 
 import { parseISO } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import HashLoader from "react-spinners/HashLoader";
 
@@ -53,7 +53,7 @@ const defaultValues = {
 }
 
 function CreateOutcomingMail() {
-  const [ file, setFile ] = useState([])
+  const [ file, setFile ] = useState(null)
   const [ isLoading, setIsLoading ] = useState(false)
   // const [fetchData, setFetchData] = useState(null)
   const form = useForm({
@@ -61,11 +61,11 @@ function CreateOutcomingMail() {
     defaultValues
   })
 
-  function onInputFileHandler(file) {
-    setFile(file)
+  async function onInputFileHandler(fileForm) {
+    setFile(fileForm.target.files[0])
   }
 
-  async function onSubmitHandler() {
+  async function onScanHandler() {
     // testing dummy
     // let tes = fetchData.map(data => (
     //   data.content
@@ -78,11 +78,11 @@ function CreateOutcomingMail() {
     }
 
     const formData = new FormData();
-    formData.append("document", file[0]);
+    formData.append("document", file);
 
     try {
       setIsLoading(true)
-      const res = await fetch("/api/outcoming-mail", {
+      const res = await fetch("/api/predict", {
         method: "POST",
         body: formData,
       });
@@ -93,6 +93,7 @@ function CreateOutcomingMail() {
       }
 
       const data = await res.json();
+      console.log(data)
 
       const fetchDataDoc = await data?.document?.inference?.prediction
       const noRegistration = fetchDataDoc?.registration_number?.values
@@ -114,8 +115,9 @@ function CreateOutcomingMail() {
   }
 
   function onDeleteHandler() {
-    console.log(fetchData)
-    setFile([])
+    // console.log(fetchData)
+    form.reset({ file: ""})
+    setFile(null)
   }
 
   return (
@@ -135,7 +137,7 @@ function CreateOutcomingMail() {
       <div className="w-ful mt-3 flex h-fit flex-col gap-5 lg:grid lg:grid-cols-12">
         <div className="z-0 col-span-12 lg:!mb-0">
           <FormProvider {...form}>
-            <Upload file={file} onInput={onInputFileHandler} onDelete={onDeleteHandler} onSubmit={onSubmitHandler} />
+            <Upload file={file} onInput={onInputFileHandler} onDelete={onDeleteHandler} onScan={onScanHandler} />
           </FormProvider>
         </div>
       </div>

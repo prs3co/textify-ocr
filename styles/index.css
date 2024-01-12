@@ -47,3 +47,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.text-balance {
+  text-wrap: balance;
+}

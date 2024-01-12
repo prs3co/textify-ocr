@@ -22,9 +22,10 @@ import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
 
-const Upload = (props) => {
-  const { file, onInput, onDelete, onSubmit } = props
 
+const Upload = (props) => {
+  const { file, onInput, onDelete, onScan } = props
+  
   const form = useFormContext()
 
   function onSubmitForm() {
@@ -65,8 +66,8 @@ const Upload = (props) => {
   }
 
   function onOpenFile() {
-    const fileObj = form.watch("file")
-    const url = URL.createObjectURL(fileObj)
+    // const fileObj = form.watch("file")
+    const url = URL.createObjectURL(file)
     window.open(url, '_blank')
     URL.revokeObjectURL(url)
   }
@@ -87,50 +88,41 @@ const Upload = (props) => {
           <Form {...form}>
             {/* <form  className="space-y-8"> */}
             <form onSubmit={form.handleSubmit(onSubmitForm)} className=" dark:text-white flex flex-col-reverse lg:grid lg:grid-cols-11 gap-8">
-              <div className='col-span-2 space-y-8'>
+              <div className='col-span-2 flex flex-col items-center justify-center'>
                 <FormField
                   control={form.control}
                   name="file"
                   render={({ field }) => (
-                    <FormItem className="h-full">
+                    <FormItem className="h-full w-full">
                       <FormControl>
-                        {/* <Dropzone
-                          {...field}
-                          dropMessage="Drop files or click here"
-                          handleOnDrop={handleOnDrop}
-                          className="flex h-full w-full flex-col items-center justify-center rounded-xl border-[2px] border-dashed border-gray-200 bg-lightPrimary dark:bg-navy-700 dark:!border-navy-800 lg:pb-0"
-                          onInput={onInput}
-                          onDelete={onDelete}
-                          onSubmit={onSubmit}
-                        /> */}
                         <Dropzone
+                          onInput={(file) => onInput(file)}
                           {...field}
-                          dropMessage="Letakkan file atau klik di sini"
+                          dropMessage={file}
                           handleOnDrop={handleOnDrop}
                         />
-                        {/* <Input {...field} /> */}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {form.watch("file") && (
-                  <div className="flex flex-col items-center justify-center gap-3 p-4 relative">
+                {file ? (
+                  <div className="flex flex-col items-center justify-center gap-3 relative">
                     {/* <FileCheck2Icon className="h-4 w-4" /> */}
-                    <p className="text-sm font-medium">{form.watch("file")?.name}</p>
+                    {/* <p className="text-sm font-medium">{form.watch("file")?.name}</p> */}
                     <div className='flex flex-col gap-5'>
-                      <button onClick={onOpenFile} className="linear flex items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
+                      <button type="button" onClick={onOpenFile} className="linear flex items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
                         Buka Berkas
                       </button>
-                      <button onClick={onSubmit} className="linear flex items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
-                        Scan PDF
+                      <button type="button" onClick={onScan} className="linear flex items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
+                        Scan Berkas
                       </button>
-                      <button onClick={onDelete} className="linear flex items-center justify-center rounded-xl bg-red-600 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-red-800 active:bg-brand-700 dark:bg-red-700 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
+                      <button type="button" onClick={onDelete} className="linear flex items-center justify-center rounded-xl bg-red-600 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-red-800 active:bg-brand-700 dark:bg-red-700 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
                         Hapus Berkas
                       </button>
                     </div>
                   </div>
-                )}
+                ) : null}
                 <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 flex lg:hidden" type='submit'>
                 Publish now
                 </button>
