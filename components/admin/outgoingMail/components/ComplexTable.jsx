@@ -16,9 +16,13 @@ async function getTasks() {
     path.join(process.cwd(), "components\\admin\\outgoingMail\\components\\data\\tasks.json")
   )
 
-  const tasks = JSON.parse(data.toString())
+  const api = await fetch('http://localhost:3000/api/outcoming-mail', { cache: 'no-store'})
+  const apidata = await api.json()
+  console.log(apidata)
 
-  return z.array(taskSchema).parse(tasks)
+  // const tasks = JSON.parse(apidata.toString())
+
+  return z.array(taskSchema).parse(apidata)
 }
 
 export default async function TaskPage() {

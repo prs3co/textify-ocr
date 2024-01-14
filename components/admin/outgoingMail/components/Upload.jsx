@@ -2,9 +2,8 @@ import { MdFileUpload, MdOutlineCalendarMonth, MdFilePresent } from "react-icons
 import Card from "@/components/card";
 import Dropzone from '@/components/admin/outgoingMail/components/Dropzone';
 import { useFormContext } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from 'zod'
 import { cn } from "@/lib/utils"
+import Link from 'next/link'
 
 import {
   Form,
@@ -237,9 +236,11 @@ const Upload = (props) => {
                   )}
                 />
                 <div className='flex gap-8'>
-                  <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 hidden lg:flex" type='submit'>
-                  Kembali
-                  </button>
+                  <Link href="/admin/surat-keluar" className='w-full'>
+                    <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 hidden lg:flex" type='submit'>
+                      Kembali
+                    </button>
+                  </Link>
                   <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 hidden lg:flex" type='submit'>
                   Simpan
                   </button>
