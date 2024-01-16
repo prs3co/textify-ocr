@@ -24,12 +24,48 @@ import { id } from 'date-fns/locale';
 
 const Upload = (props) => {
   const { file, onInput, onDelete, onScan } = props
-  
+
   const form = useFormContext()
 
-  function onSubmitForm() {
-    const allValues = form.getValues();
-    console.log(allValues);
+  async function uploadFileAndGetURL() {
+    const fileUrl = 'http://example.com/new-sample-letter.pdf'
+    return fileUrl
+  }
+
+  function objectToFormData(obj) {
+    const formData = new FormData();
+
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        formData.append(key, obj[key]);
+      }
+    }
+
+    return formData;
+  }
+
+  async function onSubmitForm(data) {
+    try {
+      const fileUrl = await uploadFileAndGetURL()
+      data.file = fileUrl
+      const formData = objectToFormData(data)
+      // console.log(formData)
+      console.log(formData)
+      const res = await fetch('/api/outcoming-mail', {
+        method: 'POST',
+        body: formData
+      })
+
+      if (!res.ok) {
+        console.log('something went wrong, check your console')
+        return
+      }
+
+      const resData = await res.json()
+      console.log(resData)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function handleOnDrop(acceptedFiles) {
@@ -123,7 +159,7 @@ const Upload = (props) => {
                   </div>
                 ) : null}
                 <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 flex lg:hidden" type='submit'>
-                Publish now
+                Simpan now
                 </button>
               </div>
               <div className='col-span-9 space-y-8'>
@@ -237,7 +273,7 @@ const Upload = (props) => {
                 />
                 <div className='flex gap-8'>
                   <Link href="/admin/surat-keluar" className='w-full'>
-                    <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 hidden lg:flex" type='submit'>
+                    <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 hidden lg:flex">
                       Kembali
                     </button>
                   </Link>

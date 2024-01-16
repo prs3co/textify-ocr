@@ -15,18 +15,40 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const body = await request.json()
-  const newMail = new Mail(body)
   try {
+    const body = await request.formData()
+    console.log('Received form data:', body);
+
+    const mailData = {
+      registerNumber: body.get('noRegistration'),
+      letterNumber: body.get('letterNumber'),
+      address: body.get('address'),
+      letterDate: new Date(body.get('letterDate')),
+      title: body.get('title'),
+      pdfUrl: body.get('file'),
+    };
+
+    console.log('Extracted year:', mailData.year);
+
+
+    console.log('Mail data:', mailData);
+
+    const newMail = new Mail(mailData);
+    console.log('New Mail object:', newMail.toObject());
+
     await connectDB()
     await newMail.save()
 
-    return new NextResponse('Mail has been posted', { status: 201, headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    }})
+    return NextResponse.json('Mail has been posted', {
+      status: 201,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+    });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error'}, { status: 500 })
+    return new NextResponse.json({ error }, { status: 500 });
+    // return NextResponse.json({ error: 'Internal server error'}, { status: 500 })
   }
 }

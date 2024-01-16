@@ -49,6 +49,7 @@ const defaultValues = {
   address: "",
   letterDate: "",
   title: "",
+  fileUrl: "",
   file: "",
 }
 
