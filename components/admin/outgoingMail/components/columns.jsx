@@ -84,7 +84,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "letterDate",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tanggal Surat" />
     ),
@@ -95,7 +95,7 @@ export const columns = [
         <div className="flex space-x-2 max-w-max">
           {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[100px] truncate font-medium">
-            {new Date(row.getValue("date")).toLocaleDateString('id-ID', {
+            {new Date(row.getValue("letterDate")).toLocaleDateString('id-ID', {
               day: '2-digit', month: 'long', year: 'numeric'
             })}
           </span>

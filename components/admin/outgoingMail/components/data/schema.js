@@ -5,7 +5,7 @@ import { z } from "zod"
 export const taskSchema = z.object({
   registerNumber: z.number(),
   letterNumber: z.string(),
-  date: z.string(),
+  letterDate: z.string(),
   title: z.string(),
   address: z.string(),
   pdfUrl: z.string().url(),

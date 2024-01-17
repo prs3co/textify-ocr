@@ -17,7 +17,12 @@ export async function GET() {
 export async function POST(request) {
   try {
     const body = await request.formData()
-    console.log('Received form data:', body);
+
+    const letterDateString = body.get('letterDate');
+    console.log('Received letter date string:', letterDateString);
+
+    const letterDate = new Date(letterDateString);
+    console.log('Parsed letter date:', letterDate);
 
     const mailData = {
       registerNumber: body.get('noRegistration'),
@@ -26,14 +31,14 @@ export async function POST(request) {
       letterDate: new Date(body.get('letterDate')),
       title: body.get('title'),
       pdfUrl: body.get('file'),
+      year: new Date(body.get('letterDate')).getFullYear()
     };
 
-    console.log('Extracted year:', mailData.year);
-
-
-    console.log('Mail data:', mailData);
+    console.log('Mail data before saving:', mailData);
 
     const newMail = new Mail(mailData);
+
+    // console.log('Extracted year:', newMail.year);
     console.log('New Mail object:', newMail.toObject());
 
     await connectDB()
@@ -48,7 +53,7 @@ export async function POST(request) {
       },
     });
   } catch (error) {
-    return new NextResponse.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
     // return NextResponse.json({ error: 'Internal server error'}, { status: 500 })
   }
 }

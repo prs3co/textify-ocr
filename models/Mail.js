@@ -14,6 +14,10 @@ const mailSchema = new Schema(
       type: Date,
       required: true,
     },
+    year: {
+      type: Number,
+      required: true,
+    },
     title: {
       type: String,
       required: true
@@ -29,18 +33,10 @@ const mailSchema = new Schema(
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
   }
 )
 
-mailSchema.virtual('year').get(function() {
-  return this.letterDate.getFullYear();
-});
-
-mailSchema.set('toObject', { virtuals: true });
-mailSchema.set('toJSON', { virtuals: true });
-
-mailSchema.index({ registerNumber: 1, year: 1 }, { unique: true, partialFilterExpression: { year: { $exists: true } } });
+mailSchema.index({ registerNumber: 1, year: 1 }, { unique: true });
 
 
 export default mongoose.models.Mail || mongoose.model('Mail', mailSchema)
