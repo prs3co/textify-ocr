@@ -18,12 +18,6 @@ export async function POST(request) {
   try {
     const body = await request.formData()
 
-    const letterDateString = body.get('letterDate');
-    console.log('Received letter date string:', letterDateString);
-
-    const letterDate = new Date(letterDateString);
-    console.log('Parsed letter date:', letterDate);
-
     const mailData = {
       registerNumber: body.get('noRegistration'),
       letterNumber: body.get('letterNumber'),
@@ -34,11 +28,8 @@ export async function POST(request) {
       year: new Date(body.get('letterDate')).getFullYear()
     };
 
-    console.log('Mail data before saving:', mailData);
-
     const newMail = new Mail(mailData);
 
-    // console.log('Extracted year:', newMail.year);
     console.log('New Mail object:', newMail.toObject());
 
     await connectDB()

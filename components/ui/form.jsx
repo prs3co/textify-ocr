@@ -60,6 +60,8 @@ FormItem.displayName = "FormItem"
 const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField()
 
+  console.log(error)
+
   return (
     (<Label
       ref={ref}

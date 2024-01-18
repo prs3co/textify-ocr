@@ -25,7 +25,7 @@ import { id } from 'date-fns/locale';
 const Upload = (props) => {
   const { file, onInput, onDelete, onScan } = props
 
-  const form = useFormContext()
+  const {formState: { errors }, ...form} = useFormContext()
 
   async function uploadFileAndGetURL() {
     const fileUrl = 'http://example.com/new-sample-letter.pdf'
@@ -57,6 +57,9 @@ const Upload = (props) => {
       })
 
       if (!res.ok) {
+        form.setError('root.serverError', {
+          type: res.status
+        })
         console.log('something went wrong, check your console')
         return
       }
@@ -123,6 +126,7 @@ const Upload = (props) => {
           <Form {...form}>
             {/* <form  className="space-y-8"> */}
             <form onSubmit={form.handleSubmit(onSubmitForm)} className=" dark:text-white flex flex-col-reverse lg:grid lg:grid-cols-11 gap-8">
+            {errors.root.serverError.type === 400 && <p>server response message</p>}
               <div className='col-span-2 flex flex-col items-center justify-center'>
                 <FormField
                   control={form.control}
