@@ -44,6 +44,15 @@ export async function POST(request) {
       },
     });
   } catch (error) {
+    if (error.code === 11000 && error.keyPattern && error.keyValue) {
+      const duplicateKeyError = {
+        error: 'Duplicate key violation',
+        keyPattern: error.keyPattern,
+        keyValue: error.keyValue,
+      }
+
+      return NextResponse.json(duplicateKeyError, { status: 409})
+    }
     return NextResponse.json({ error }, { status: 500 });
     // return NextResponse.json({ error: 'Internal server error'}, { status: 500 })
   }

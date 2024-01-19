@@ -20,8 +20,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 
-
-
 const Upload = (props) => {
   const { file, onInput, onDelete, onScan } = props
 
@@ -57,9 +55,13 @@ const Upload = (props) => {
       })
 
       if (!res.ok) {
-        form.setError('root.serverError', {
-          type: res.status
-        })
+        if (res.status === 409) {
+          form.setError("noRegistration", {
+            type: "400",
+            message: 'No Registrasi sudah digunakan'
+          })
+        }
+
         console.log('something went wrong, check your console')
         return
       }
@@ -126,7 +128,6 @@ const Upload = (props) => {
           <Form {...form}>
             {/* <form  className="space-y-8"> */}
             <form onSubmit={form.handleSubmit(onSubmitForm)} className=" dark:text-white flex flex-col-reverse lg:grid lg:grid-cols-11 gap-8">
-            {errors.root.serverError.type === 400 && <p>server response message</p>}
               <div className='col-span-2 flex flex-col items-center justify-center'>
                 <FormField
                   control={form.control}
@@ -275,6 +276,9 @@ const Upload = (props) => {
                     </FormItem>
                   )}
                 />
+                {/* {errors.root && errors.root.serverError && (
+                  <p>{`Server error with status code ${errors.root.serverError.type}`}</p>
+                )} */}
                 <div className='flex gap-8'>
                   <Link href="/admin/surat-keluar" className='w-full'>
                     <button className="w-full linear mt-4 items-center justify-center rounded-xl bg-brand-500 px-2 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200 hidden lg:flex">
