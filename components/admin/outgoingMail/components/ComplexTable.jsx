@@ -6,27 +6,27 @@ import { z } from "zod"
 import { columns } from "@/components/admin/outgoingMail/components/columns"
 import { DataTable } from "@/components/admin/outgoingMail/components/data-table"
 import { UserNav } from "@/components/admin/outgoingMail/components/user-nav"
-import { taskSchema } from "@/components/admin/outgoingMail/components/data/schema"
+import { mailSchema } from "@/components/admin/outgoingMail/components/data/schema"
 import CardMenu from '@/components/card/CardMenu'
 import Card from '@/components/card'
 
 // Simulate a database read for tasks.
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), "components\\admin\\outgoingMail\\components\\data\\tasks.json")
-  )
+async function getMails() {
+  // const data = await fs.readFile(
+  //   path.join(process.cwd(), "components\\admin\\outgoingMail\\components\\data\\tasks.json")
+  // )
 
-  const api = await fetch('http://localhost:3000/api/outcoming-mail', { cache: 'no-store'})
-  const apidata = await api.json()
-  console.log(apidata)
+  const data = await fetch('http://localhost:3000/api/outcoming-mail', { cache: 'no-store'})
+  const dataApi = await data.json()
+  console.log(dataApi)
 
-  // const tasks = JSON.parse(apidata.toString())
+  // const tasks = JSON.parse(dataApi.toString())
 
-  return z.array(taskSchema).parse(apidata)
+  return z.array(mailSchema).parse(dataApi)
 }
 
 export default async function TaskPage() {
-  const tasks = await getTasks()
+  const mails = await getMails()
 
   return (
     <Card extra={'w-full h-full px-6 pb-6 sm:overflow-x-auto'}>
@@ -38,7 +38,7 @@ export default async function TaskPage() {
       </div>
 
       <div className="mt-8 overflow-x-scroll xl:overflow-x-hidden">
-        <DataTable data={tasks} columns={columns} />
+        <DataTable data={mails} columns={columns} />
       </div>
     </Card>
   )

@@ -2,6 +2,7 @@
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { Row } from "@tanstack/react-table"
+import Link from 'next/link'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -19,12 +20,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { labels } from "./data/data"
-import { taskSchema } from "./data/schema"
+import { mailSchema } from "./data/schema"
 
 export function DataTableRowActions({
   row,
 }) {
-  const task = taskSchema.parse(row.original)
+  const mail = mailSchema.parse(row.original)
+  console.log(mail)
 
   return (
     <DropdownMenu>
@@ -38,14 +40,35 @@ export function DataTableRowActions({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
+        <DropdownMenuItem className='p-0'>
+          <Button
+            variant='ghost'
+            className='flex h-8 w-full text-left px-2 py-1.5 data-[state=open]:bg-muted'
+          >
+            <Link href={`/admin/surat-keluar/${mail._id}`} className='font-normal w-full h-full'>Ubah</Link>
+          </Button>
+        </DropdownMenuItem>
+        <DropdownMenuItem className='p-0'>
+          <Button
+            variant='ghost'
+            className='flex h-8 w-full text-left px-2 py-1.5 data-[state=open]:bg-muted'
+          >
+            <Link href='/' className='font-normal w-full h-full'>Make a copy</Link>
+          </Button>
+        </DropdownMenuItem>
+        <DropdownMenuItem className='p-0'>
+          <Button
+            variant='ghost'
+            className='flex h-8 w-full text-left px-2 py-1.5 data-[state=open]:bg-muted'
+          >
+            <Link href='/' className='font-normal w-full h-full'>Hapus</Link>
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.label}>
+            <DropdownMenuRadioGroup value={mail.label}>
               {labels.map((label) => (
                 <DropdownMenuRadioItem key={label.value} value={label.value}>
                   {label.label}
