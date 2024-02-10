@@ -14,7 +14,7 @@ import HashLoader from "react-spinners/HashLoader";
 import useSWR from 'swr'
 
 const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = ["application/pdf"];
+const ACCEPTED_IMAGE_TYPES = ["application/pdf", "text/plain"];
 
 
 const formSchema = z.object({
@@ -38,10 +38,14 @@ const formSchema = z.object({
     .any()
     .refine((files) => files, "File harus diisi.")
     // .refine((files) => files?.size <= MAX_FILE_SIZE, `Ukuran file maksimal adalah 5MB.`)
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.type),
-      "File .pdf diterima."
-    ),
+    // .refine(
+    //   (files) => console.log(files),
+    //   "File .pdf diterima."
+    // ),
+    // .refine(
+    //   (files) => ACCEPTED_IMAGE_TYPES.includes(files?.type),
+    //   "File .pdf diterima."
+    // ),
 })
 
 const defaultValues = {
@@ -86,6 +90,11 @@ function CreateOutcomingMail({ params }) {
       form.setValue('letterDate', parseISO(letterDate))
       form.setValue('title', title)
       form.setValue('file', fileUrl)
+      form.setValue('fileUrl', fileUrl)
+      setFile(fileUrl)
+
+      const val = form.getValues()
+      console.log(val)
     }
   }, [isLoading])
 

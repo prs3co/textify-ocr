@@ -30,6 +30,7 @@ const Upload = (props) => {
     return fileUrl
   }
 
+
   function objectToFormData(obj) {
     const formData = new FormData();
 
@@ -47,7 +48,6 @@ const Upload = (props) => {
       const fileUrl = await uploadFileAndGetURL()
       data.file = fileUrl
       const formData = objectToFormData(data)
-      // console.log(formData)
       console.log(formData)
       const res = await fetch('/api/outcoming-mail', {
         method: 'POST',
